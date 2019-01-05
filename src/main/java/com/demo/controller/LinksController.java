@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.demo.messaging.MessageReceiver.QUEUE;
 
 @RestController
-public class LinksController {
+public class  LinksController {
 
     private UrlShortener urlShortener;
     private RabbitTemplate rabbitTemplate;
@@ -25,6 +25,7 @@ public class LinksController {
     @GetMapping("shorten")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Link shorten (@RequestParam("fullUrl") String fullUrl) {
+        rabbitTemplate.convertAndSend(QUEUE, fullUrl);
         return urlShortener.shorten(fullUrl);
     }
 

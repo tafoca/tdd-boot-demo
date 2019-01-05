@@ -21,8 +21,10 @@ public class MessageReceiver {
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = QUEUE, durable = "false"),
-            exchange = @Exchange(value = EXCHANGE, type = ExchangeTypes.TOPIC)))
+            exchange = @Exchange(value = EXCHANGE, type = ExchangeTypes.TOPIC),
+            key = "foo.drag.#"))
     public void receiveMessage(String message) {
         linkRepository.incrementClickCountByOne(message);
+        System.out.println("linkRepository.incrementClickCountByOne(message)" +message);
     }
 }
